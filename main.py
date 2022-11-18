@@ -11,7 +11,7 @@ def make_hero(
 name=None,
 hp_curret=None,
 lvl=0,
-xp_next=100,
+xp_next=None,
 xp_curret=0,
 ATK_base=1,
 ATK_weapon=None,
@@ -48,7 +48,7 @@ money=None
     if not name:
         name = choice(first_name) + " " + choice(last_name)
     if not hp_curret:
-        hp_curret = 20 + (1 * lvl)
+        hp_curret = 20
     hp_max = hp_curret
     if not money:
         money = randint(1, 5)
@@ -56,6 +56,10 @@ money=None
         ATK_curret = ATK_base
     if not defense_shield and not defense_armor:
         defense_curret = defense_base
+    if not inventory:
+        inventory = []
+    if not xp_next:
+        xp_next = 234 + 234 * (lvl * 2)
 
     return [
         name,
@@ -78,14 +82,64 @@ money=None
         inventory,
         money
     ]
+def show_hero(hero):
+    name = hero[0]
+    hp_max = hero[1]
+    hp_curret = hero[2]
+    lvl = hero[3]
+    xp_next = hero[4]
+    xp_curret = hero[5]
+    ATK_base = hero[6]
+    ATK_weapon = hero[7]
+    ATK_curret = hero[8]
+    weapon = hero[9]
+    defense_base = hero[10]
+    defense_shield = hero[11]
+    defense_armor = hero[12]
+    defense_curret = hero[13]
+    shield = hero[14]
+    armor = hero[15]
+    luck = hero[16]
+    inventory = hero[17]
+    money = hero[18]
 
-p1 = make_hero()
-p2 = make_hero()
-p3 = make_hero()
-p4 = make_hero()
-p5 = make_hero()
-print(p1)
-print(p2)
-print(p3)
-print(p4)
-print(p5)
+    print("Персонаж:\n")
+    print(f"Имя: {name}")
+    print(f"HP: {hp_curret}/{hp_max}")
+    print(f"Уровень: {lvl}")
+    print(f"XP: {xp_curret}/{xp_next}")
+    print(f"ATK: {ATK_curret}")
+    print(f"Оружие: {weapon}")
+    print(f"Защита: {defense_curret}")
+    print(f"Щит: {shield}")
+    print(f"Броня: {armor}")
+    print(f"Удача: {luck}")
+    print(f"Монеты: {money}\n")
+
+def levelup(hero: list) -> None:
+    if hero[5] >= hero[4]:
+        hero[3] += 1
+        hero[4] = 234 + 234 * (hero[3])
+        print(f"Поздравляем! Вы достигли {hero[3]} уровня.\n")
+        print("Распределите характеристики:\n")
+        print("Увеличить HP : 1")
+        print("Увеличить ATK: 2")
+        print("Увеличить Защиту: 3\n")
+        plus = input("Введите номер выбора и нажмите ENTER: ")
+        if plus == "1":
+            hero[1] += 5
+            hero[2] += 5
+        elif plus == "2":
+            hero[6] += 1
+        elif plus == "3":
+            hero[10] += 1
+        if not hero[7]:
+            hero[8] = hero[6]
+
+
+hero = make_hero()
+hero[5] += 234
+levelup(hero)
+hero2 = make_hero()
+show_hero(hero)
+show_hero(hero2)
